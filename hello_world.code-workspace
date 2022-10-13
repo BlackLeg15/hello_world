@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "packages/form"
+		},
+		{
+			"path": "packages/core"
+		},
+		{
+			"path": "packages/uno_http_service"
+		},
+		{
+			"path": "packages/dependencies"
+		}
+	],
+	"settings": {}
+}
