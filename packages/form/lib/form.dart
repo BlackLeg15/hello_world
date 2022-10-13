@@ -1,3 +1,3 @@
 library form;
 
-export 'src/form_page.dart';
+export 'src/presenter/form_page.dart';
