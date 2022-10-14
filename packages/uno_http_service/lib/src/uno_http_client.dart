@@ -8,7 +8,7 @@ class UnoHttpClient extends HttpService {
   Future<HttpResponse> get({required String path}) async {
     try {
       final response = await _uno.get(path);
-      return HttpResponse(message: 'OK', statusCode: response.status);
+      return HttpResponse(message: 'OK', statusCode: response.status, data: response.data);
     } catch (e) {
       throw Exception(e.toString());
     }

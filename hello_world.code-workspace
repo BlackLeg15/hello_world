@@ -14,7 +14,10 @@
 		},
 		{
 			"path": "packages/dependencies"
-		}
+		},
+		{
+			"path": "packages/poke_list"
+		},
 	],
 	"settings": {}
 }

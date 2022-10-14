@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form/form.dart';
 import 'package:hello_world/app/features/home/custom_inherited.dart';
 import 'package:hello_world/app/features/home/pages/second_page.dart';
+import 'package:poke_list/poke_list.dart';
 
 import 'widgets/custom_stateful_widget.dart';
 
@@ -62,6 +63,12 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FormPage()));
               },
               child: const Text('Go to the form'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PokeListPage()));
+              },
+              child: const Text('Go to the poke list'),
             ),
           ],
         ),

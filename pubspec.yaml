@@ -16,6 +16,8 @@ dependencies:
     path: packages/form
   dependencies:
     path: packages/dependencies
+  poke_list:
+    path: packages/poke_list
 
 dev_dependencies:
   flutter_test:
