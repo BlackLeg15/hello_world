@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PokeListPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PokeListFeature()));
               },
               child: const Text('Go to the poke list'),
             ),
