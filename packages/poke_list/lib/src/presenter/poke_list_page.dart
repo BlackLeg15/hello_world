@@ -18,12 +18,6 @@ class _PokeListPageState extends State<PokeListPage> {
   String pokemonId = '';
   List<String> pokemonAbilities = [];
 
-  @override
-  void didChangeDependencies() {
-    usecase = DependencyInjectionWidget.of(context)!.get<SearchPokemonUsecase>();
-    super.didChangeDependencies();
-  }
-
   void initPage() {
     usecase(const SearchPokemonParams(name: 'ditto')).then((either) {
       either.fold(
@@ -31,11 +25,13 @@ class _PokeListPageState extends State<PokeListPage> {
           debugPrint(error.toString());
         },
         (entity) {
-          setState(() {
-            pokemonName = entity.name;
-            pokemonId = entity.id;
-            pokemonAbilities = entity.abilities;
-          });
+          if (mounted) {
+            setState(() {
+              pokemonName = entity.name;
+              pokemonId = entity.id;
+              pokemonAbilities = entity.abilities;
+            });
+          }
         },
       );
     });
@@ -43,6 +39,7 @@ class _PokeListPageState extends State<PokeListPage> {
 
   @override
   Widget build(BuildContext context) {
+    usecase = DependencyInjectionWidget.of(context)!.get<SearchPokemonUsecase>();
     initPage();
     return Scaffold(
       appBar: AppBar(),

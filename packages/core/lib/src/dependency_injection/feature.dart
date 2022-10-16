@@ -4,7 +4,7 @@ import '../../core.dart';
 
 abstract class Feature extends StatelessWidget {
   Widget get child;
-  List<Object> get dependencies;
+  Map<Type, Object> get dependencies;
 
   const Feature({super.key});
 
