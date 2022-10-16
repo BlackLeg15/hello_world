@@ -16,11 +16,11 @@ class PokeListFeature extends Feature {
     final datasouce = SearchPokemonApiV2Datasouce(httpClient, mapper);
     final repository = SearchPokemonRepositoryImpl(datasouce);
     final usecase = SearchPokemonUsecaseImpl(repository);
-    return [usecase];
+    return <Object>[usecase];
   }
 
   @override
-  Widget get child => const PokeListPage();
+  final Widget child = const PokeListPage();
 
   const PokeListFeature({super.key});
 }
