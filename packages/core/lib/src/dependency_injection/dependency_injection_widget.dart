@@ -16,7 +16,7 @@ class DependencyInjectionWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(DependencyInjectionWidget oldWidget) {
-    return const MapEquality().equals(dependencies, oldWidget.dependencies);
+    return !(const MapEquality().equals(dependencies, oldWidget.dependencies));
   }
 
   static DependencyInjectionWidget? of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<DependencyInjectionWidget>();
