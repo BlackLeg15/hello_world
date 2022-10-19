@@ -26,6 +26,8 @@ class SearchPokemonApiV2Datasouce extends SearchPokemonDatasource {
         return Right(mapResult);
       }
       return const Left(SearchPokemonNotFoundError('Resposta inválida'));
+    } on SearchPokemonError catch (e) {
+      return Left(e);
     } catch (e) {
       return const Left(SearchPokemonNotFoundError('Não foi possível encontrar o pokémon'));
     }

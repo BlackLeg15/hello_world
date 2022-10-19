@@ -14,3 +14,7 @@ class SearchPokemonNotFoundError extends SearchPokemonError {
 class SearchPokemonUnknownError extends SearchPokemonError {
   const SearchPokemonUnknownError(super.message);
 }
+
+class SearchPokemonMapperError extends SearchPokemonError {
+  const SearchPokemonMapperError(super.message);
+}
