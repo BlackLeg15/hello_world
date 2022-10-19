@@ -4,14 +4,15 @@ import '../../core.dart';
 
 abstract class Feature extends StatelessWidget {
   Widget get child;
-  Map<Type, Object> get dependencies;
+  Map<Type, Object> dependencies({DependencyInjectionWidget? injector});
 
   const Feature({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final previousInjectedDependencies = DependencyInjectionWidget.of(context)?.dependencies;
-    final providedDependencies = dependencies;
+    final previousDependencyInjector = DependencyInjectionWidget.of(context);
+    final previousInjectedDependencies = previousDependencyInjector?.dependencies;
+    final providedDependencies = dependencies(injector: previousDependencyInjector);
     if (previousInjectedDependencies != null) {
       providedDependencies.addAll(previousInjectedDependencies);
     }

@@ -9,8 +9,9 @@ import 'package:poke_list/src/infra/datasources/search_pokemon_datasource.dart';
 class SearchPokemonApiV2Datasouce extends SearchPokemonDatasource {
   final HttpService httpService;
   final SearchPokemonApiV2Mapper mapper;
+  final AnalyticsService analyticsService;
 
-  const SearchPokemonApiV2Datasouce(this.httpService, this.mapper);
+  const SearchPokemonApiV2Datasouce(this.httpService, this.mapper, this.analyticsService);
 
   @override
   SearchPokemonResult call(SearchPokemonParams params) async {

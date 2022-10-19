@@ -11,10 +11,18 @@ import 'poke_list_page.dart';
 
 class PokeListFeature extends Feature {
   @override
-  Map<Type, Object> get dependencies {
+  Map<Type, Object> dependencies({DependencyInjectionWidget? injector}) {
+    final analyticsService = injector?.get<AnalyticsService>();
+    if (analyticsService == null) {
+      throw Exception();
+    }
     final httpClient = UnoHttpClient();
     final mapper = SearchPokemonApiV2Mapper();
-    final datasouce = SearchPokemonApiV2Datasouce(httpClient, mapper);
+    final datasouce = SearchPokemonApiV2Datasouce(
+      httpClient,
+      mapper,
+      analyticsService,
+    );
     final repository = SearchPokemonRepositoryImpl(datasouce);
     final usecase = SearchPokemonUsecaseImpl(repository);
     return <Type, Object>{SearchPokemonUsecase: usecase};

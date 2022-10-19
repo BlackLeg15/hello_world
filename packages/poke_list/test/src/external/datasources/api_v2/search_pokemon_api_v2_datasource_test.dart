@@ -12,15 +12,19 @@ import 'api_result/api_result.dart';
 
 class HttpServiceMock extends Mock implements HttpService {}
 
+class AnalyticsServiceMock extends Mock implements AnalyticsService {}
+
 void main() {
   late HttpService service;
   SearchPokemonApiV2Mapper mapper;
   late SearchPokemonApiV2Datasouce datasource;
+  late AnalyticsService analyticsService;
 
   setUpAll(() {
     service = HttpServiceMock();
     mapper = SearchPokemonApiV2Mapper();
-    datasource = SearchPokemonApiV2Datasouce(service, mapper);
+    analyticsService = AnalyticsServiceMock();
+    datasource = SearchPokemonApiV2Datasouce(service, mapper, analyticsService);
   });
 
   test(

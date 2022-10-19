@@ -11,8 +11,6 @@ void main() async {
   final firebaseApp = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final analytics = FirebaseAnalyticsService(firebaseApp: firebaseApp);
 
-  analytics.logEvent(AnalyticsEventType.logged, {});
-
   runApp(AppFeature(
     baseDependencies: {
       AnalyticsService: analytics,
@@ -25,7 +23,9 @@ class AppFeature extends Feature {
   Widget get child => const AppWidget();
 
   @override
-  Map<Type, Object> get dependencies => {...baseDependencies};
+  Map<Type, Object> dependencies({DependencyInjectionWidget? injector}) {
+    return baseDependencies;
+  }
 
   final Map<Type, Object> baseDependencies;
 
