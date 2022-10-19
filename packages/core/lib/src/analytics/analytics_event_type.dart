@@ -1,0 +1,1 @@
+enum AnalyticsEventType { screenOpened, logged }

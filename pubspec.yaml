@@ -16,8 +16,12 @@ dependencies:
     path: packages/form
   dependencies:
     path: packages/dependencies
+  core:
+    path: packages/core
   poke_list:
     path: packages/poke_list
+  firebase_analytics_service:
+    path: packages/firebase_analytics_service
 
 dev_dependencies:
   flutter_test:

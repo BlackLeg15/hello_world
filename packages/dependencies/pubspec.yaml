@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   either_dart: ^0.2.0
+  firebase_analytics: ^10.0.1
+  firebase_core: ^2.0.0
   flutter:
     sdk: flutter
   uno: ^1.0.1+5

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635055673160",
+    "project_id": "sicoobappturma1",
+    "storage_bucket": "sicoobappturma1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635055673160:android:ae3db9ab5c1ffa06366d7d",
+        "android_client_info": {
+          "package_name": "com.example.hello_world"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635055673160-krkfb1l1bngj0bcich6j5j2mg7gnec46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD33fCd4EcKVF86bu8x3ckvt1WSz6iHt7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635055673160-krkfb1l1bngj0bcich6j5j2mg7gnec46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

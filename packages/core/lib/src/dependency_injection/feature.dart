@@ -10,8 +10,13 @@ abstract class Feature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final previousInjectedDependencies = DependencyInjectionWidget.of(context)?.dependencies;
+    final providedDependencies = dependencies;
+    if (previousInjectedDependencies != null) {
+      providedDependencies.addAll(previousInjectedDependencies);
+    }
     return DependencyInjectionWidget(
-      dependencies: dependencies,
+      dependencies: providedDependencies,
       child: child,
     );
   }

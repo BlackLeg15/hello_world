@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:form/src/domain/usecases/login/login_usecase_impl.dart';
 import 'package:form/src/external/datasources/mock/login_datasource_mock_impl.dart';
@@ -23,6 +24,7 @@ class _FormPageState extends State<FormPage> {
   late LoginRepository loginRepository;
   late LoginDatasource loginDatasource;
   var isLoading = false;
+  late AnalyticsService analyticsService;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _FormPageState extends State<FormPage> {
   }
 
   void showIsLoggedSnackBar() {
+    analyticsService.logEvent(AnalyticsEventType.logged, {});
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Logado com sucesso + Clean Dart'),
@@ -43,6 +46,7 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
+    analyticsService = DependencyInjectionWidget.of(context)!.get();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(

@@ -13,6 +13,7 @@ class PokeListPage extends StatefulWidget {
 
 class _PokeListPageState extends State<PokeListPage> {
   late SearchPokemonUsecase usecase;
+  late AnalyticsService analyticsService;
 
   String pokemonName = '';
   String pokemonId = '';
@@ -26,6 +27,7 @@ class _PokeListPageState extends State<PokeListPage> {
         },
         (entity) {
           if (mounted) {
+            screenOpened();
             setState(() {
               pokemonName = entity.name;
               pokemonId = entity.id;
@@ -37,10 +39,19 @@ class _PokeListPageState extends State<PokeListPage> {
     });
   }
 
+  void screenOpened() {
+    final Map<String, Object?> parameters = {};
+    parameters.addAll({'page_name': 'form'});
+    analyticsService.screenOpened(parameters);
+  }
+
   @override
   Widget build(BuildContext context) {
-    usecase = DependencyInjectionWidget.of(context)!.get<SearchPokemonUsecase>();
-    initPage();
+    final dependencyInjector = DependencyInjectionWidget.of(context)!;
+    usecase = dependencyInjector.get();
+    analyticsService = dependencyInjector.get();
+
+    if (pokemonName.isEmpty) initPage();
     return Scaffold(
       appBar: AppBar(),
       body: Center(

@@ -16,7 +16,10 @@
 			"path": "packages/dependencies"
 		},
 		{
-			"path": "packages/poke_list"
+			"path": "packages/poke_list",
+		},
+		{
+			"path": "packages/firebase_analytics_service",
 		},
 	],
 	"settings": {}
