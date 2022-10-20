@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_list/src/domain/params/search_pokemon_params.dart';
+import 'package:poke_list/src/presenter/widgets/custom_text.dart';
 
 import '../domain/usecases/search_pokemon_usecase.dart';
 
@@ -58,12 +59,10 @@ class _PokeListPageState extends State<PokeListPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Name: $pokemonName',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+            CustomText(
+              text: 'Name: $pokemonName',
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
             Text(
               'ID: $pokemonId',
