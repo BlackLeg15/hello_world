@@ -1,6 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:poke_list/src/domain/usecases/search_pokemon_usecase.dart';
+import 'package:poke_list/src/presenter/poke_list_controller.dart';
 import 'package:uno_http_service/uno_http_service.dart';
 
 import '../domain/usecases/search_pokemon_usecase_impl.dart';
@@ -25,7 +25,8 @@ class PokeListFeature extends Feature {
     );
     final repository = SearchPokemonRepositoryImpl(datasouce);
     final usecase = SearchPokemonUsecaseImpl(repository);
-    return <Type, Object>{SearchPokemonUsecase: usecase};
+    final controller = PokeListController(usecase, analyticsService);
+    return <Type, Object>{PokeListController: controller};
   }
 
   @override

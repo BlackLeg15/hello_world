@@ -1,9 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:poke_list/src/domain/params/search_pokemon_params.dart';
+import 'package:poke_list/src/presenter/poke_list_controller.dart';
 import 'package:poke_list/src/presenter/widgets/custom_text.dart';
-
-import '../domain/usecases/search_pokemon_usecase.dart';
 
 class PokeListPage extends StatefulWidget {
   const PokeListPage({super.key});
@@ -13,46 +11,27 @@ class PokeListPage extends StatefulWidget {
 }
 
 class _PokeListPageState extends State<PokeListPage> {
-  late SearchPokemonUsecase usecase;
-  late AnalyticsService analyticsService;
+  late PokeListController controller;
 
-  String pokemonName = '';
-  String pokemonId = '';
-  List<String> pokemonAbilities = [];
-
-  void initPage() {
-    usecase(const SearchPokemonParams(name: 'ditto')).then((either) {
-      either.fold(
-        (error) {
-          debugPrint(error.toString());
-        },
-        (entity) {
-          if (mounted) {
-            screenOpened();
-            setState(() {
-              pokemonName = entity.name;
-              pokemonId = entity.id;
-              pokemonAbilities = entity.abilities;
-            });
-          }
-        },
-      );
-    });
+  @override
+  void didChangeDependencies() {
+    controller = DependencyInjectionWidget.of(context)!.get();
+    controller.screenOpened();
+    initPage();
+    super.didChangeDependencies();
   }
 
-  void screenOpened() {
-    final Map<String, Object?> parameters = {};
-    parameters.addAll({'page_name': 'form'});
-    analyticsService.screenOpened(parameters);
+  void initPage() {
+    controller.initPage().then((value) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final dependencyInjector = DependencyInjectionWidget.of(context)!;
-    usecase = dependencyInjector.get();
-    analyticsService = dependencyInjector.get();
-
-    if (pokemonName.isEmpty) initPage();
+    final pokemonName = controller.pokemonName;
+    final pokemonId = controller.pokemonId;
+    final pokemonAbilities = controller.pokemonAbilities;
     return Scaffold(
       appBar: AppBar(),
       body: Center(
