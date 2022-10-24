@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poke_list/src/presenter/pages/form_controller.dart';
 import 'package:poke_list/src/presenter/poke_list_controller.dart';
 import 'package:uno_http_service/uno_http_service.dart';
 
@@ -26,7 +27,11 @@ class PokeListFeature extends Feature {
     final repository = SearchPokemonRepositoryImpl(datasouce);
     final usecase = SearchPokemonUsecaseImpl(repository);
     final controller = PokeListController(usecase, analyticsService);
-    return <Type, Object>{PokeListController: controller};
+    final formController = FormController();
+    return <Type, Object>{
+      PokeListController: controller,
+      FormController: formController,
+    };
   }
 
   @override

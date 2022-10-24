@@ -1,5 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:poke_list/src/presenter/pages/form_controller.dart';
+import 'package:poke_list/src/presenter/pages/form_page.dart';
 import 'package:poke_list/src/presenter/poke_list_controller.dart';
 import 'package:poke_list/src/presenter/widgets/custom_text.dart';
 
@@ -65,6 +67,20 @@ class _PokeListPageState extends State<PokeListPage> {
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final formController = DependencyInjectionWidget.of(context)!.get<FormController>();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormPage(
+                formController: formController,
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.navigate_next_sharp),
       ),
     );
   }
