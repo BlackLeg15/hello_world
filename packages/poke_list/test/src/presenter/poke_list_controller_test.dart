@@ -3,34 +3,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:poke_list/src/domain/usecases/search_pokemon_usecase.dart';
 import 'package:poke_list/src/presenter/poke_list_controller.dart';
+import 'package:poke_list/src/presenter/stores/search_pokemon_store/search_pokemon_store.dart';
 
 class AnalyticsServiceMock extends Mock implements AnalyticsService {}
 
 class SearchPokemonUsecaseMock extends Mock implements SearchPokemonUsecase {}
 
+class SearchPokemonStoreMock extends Mock implements SearchPokemonStore {}
+
 void main() {
   late PokeListController controller;
-  late SearchPokemonUsecase usecase;
   late AnalyticsService analyticsService;
+  late SearchPokemonStore store;
 
   setUp(() {
-    usecase = SearchPokemonUsecaseMock();
     analyticsService = AnalyticsServiceMock();
-    controller = PokeListController(usecase, analyticsService);
+    store = SearchPokemonStoreMock();
+    controller = PokeListController(store, analyticsService);
   });
 
   group('Poke List Controller', () {
-    test('Initial state', () {
-      expect(controller.pokemonAbilities.isEmpty, isTrue);
-      expect(controller.pokemonId.isEmpty, isTrue);
-      expect(controller.pokemonName.isEmpty, isTrue);
-    });
-    test('After changing name, only name will change', () {
-      controller.pokemonName = 'ditto';
-      expect(controller.pokemonAbilities.isEmpty, isTrue);
-      expect(controller.pokemonId.isEmpty, isTrue);
-      expect(controller.pokemonName.isNotEmpty, isTrue);
-    });
     test('screenOpened()', () async {
       when(
         () => analyticsService.screenOpened(any()),
@@ -38,9 +30,6 @@ void main() {
         return null;
       });
       await controller.screenOpened();
-      expect(controller.pokemonAbilities.isEmpty, isTrue);
-      expect(controller.pokemonId.isEmpty, isTrue);
-      expect(controller.pokemonName.isEmpty, isTrue);
       verify(
         () => analyticsService.screenOpened(any()),
       ).called(1);

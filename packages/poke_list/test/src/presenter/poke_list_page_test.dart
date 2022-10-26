@@ -1,5 +1,5 @@
 import 'package:core/core.dart';
-import 'package:dependencies/dependencies.dart';
+import 'package:dependencies/dependencies.dart' show Right;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,6 +9,7 @@ import 'package:poke_list/src/domain/usecases/search_pokemon_usecase.dart';
 import 'package:poke_list/src/presenter/pages/form_controller.dart';
 import 'package:poke_list/src/presenter/poke_list_controller.dart';
 import 'package:poke_list/src/presenter/poke_list_page.dart';
+import 'package:poke_list/src/presenter/stores/search_pokemon_store/search_pokemon_store.dart';
 
 class AnalyticsServiceMock extends Mock implements AnalyticsService {}
 
@@ -18,17 +19,22 @@ void main() {
   late AnalyticsService analyticsService;
   late SearchPokemonUsecase usecase;
   late PokeListController controller;
+  late SearchPokemonStore store;
   late FormController formController;
 
-  setUpAll(() {
+  setUp(() {
     analyticsService = AnalyticsServiceMock();
     usecase = SearchPokemonUsecaseMock();
-    controller = PokeListController(usecase, analyticsService);
+    store = SearchPokemonStore(usecase);
+    controller = PokeListController(store, analyticsService);
     formController = FormController();
+  });
+
+  setUpAll(() {
     registerFallbackValue(const SearchPokemonParams(name: 'ditto'));
   });
 
-  testWidgets('poke list page ...', (tester) async {
+  testWidgets('Poke list page getting data correctly', (tester) async {
     when(
       () => usecase(any()),
     ).thenAnswer(
@@ -60,7 +66,7 @@ void main() {
     expect(find.text('Name: ditto'), findsOneWidget);
   });
 
-  testWidgets('Go to the form page', (tester) async {
+  testWidgets('Go to the form page and back', (tester) async {
     when(
       () => usecase(any()),
     ).thenAnswer(
@@ -86,6 +92,7 @@ void main() {
     );
 
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
 
     //Navegando para página de formulário
     final navigateWidget = find.byIcon(Icons.navigate_next_sharp);

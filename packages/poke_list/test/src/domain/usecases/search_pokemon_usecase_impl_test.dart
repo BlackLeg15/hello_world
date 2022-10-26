@@ -1,4 +1,4 @@
-import 'package:dependencies/dependencies.dart';
+import 'package:dependencies/dependencies.dart' show Right;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:poke_list/src/domain/entities/search_pokemon_entity.dart';

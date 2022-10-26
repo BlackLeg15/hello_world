@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_list/src/presenter/pages/form_controller.dart';
 import 'package:poke_list/src/presenter/pages/form_page.dart';
@@ -24,48 +25,55 @@ class _PokeListPageState extends State<PokeListPage> {
   }
 
   void initPage() {
-    controller.initPage().then((value) {
-      setState(() {});
-    });
+    controller.initPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final pokemonName = controller.pokemonName;
-    final pokemonId = controller.pokemonId;
-    final pokemonAbilities = controller.pokemonAbilities;
+    final store = controller.searchPokemonStore;
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomText(
-              text: 'Name: $pokemonName',
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-            Text(
-              'ID: $pokemonId',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text('List of abilities'),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: pokemonAbilities.length,
-                itemBuilder: (context, index) {
-                  return Text(
-                    pokemonAbilities[index],
-                    textAlign: TextAlign.center,
-                  );
-                },
-              ),
-            )
-          ],
+        child: Observer(
+          builder: (context) {
+            if (store.isLoading) {
+              return const CircularProgressIndicator();
+            }
+            final pokemon = store.searchPokemonViewModel;
+            final pokemonName = pokemon.pokemonName;
+            final pokemonId = pokemon.pokemonId;
+            final pokemonAbilities = pokemon.pokemonAbilities;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                  text: 'Name: $pokemonName',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                Text(
+                  'ID: $pokemonId',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text('List of abilities'),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: pokemonAbilities.length,
+                    itemBuilder: (context, index) {
+                      return Text(
+                        pokemonAbilities[index],
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
