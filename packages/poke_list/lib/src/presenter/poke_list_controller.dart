@@ -12,19 +12,7 @@ class PokeListController {
     await analyticsService.screenOpened(parameters);
   }
 
-  Future<void> initPage() async {
-    await searchPokemonStore.searchPokemon();
-    // return searchPokemonUsecase(const SearchPokemonParams(name: 'ditto')).then((either) {
-    //   either.fold(
-    //     (error) {},
-    //     (entity) {
-    //       pokemonName = entity.name;
-    //       pokemonId = entity.id;
-    //       pokemonAbilities = entity.abilities;
-    //     },
-    //   );
-    // });
-  }
+  Future<void> initPage() => searchPokemonStore.searchPokemon();
 
   PokeListController(this.searchPokemonStore, this.analyticsService);
 }

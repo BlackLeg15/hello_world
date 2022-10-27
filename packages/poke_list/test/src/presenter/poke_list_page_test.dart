@@ -22,16 +22,16 @@ void main() {
   late SearchPokemonStore store;
   late FormController formController;
 
+  setUpAll(() {
+    registerFallbackValue(const SearchPokemonParams(name: 'ditto'));
+  });
+
   setUp(() {
     analyticsService = AnalyticsServiceMock();
     usecase = SearchPokemonUsecaseMock();
     store = SearchPokemonStore(usecase);
     controller = PokeListController(store, analyticsService);
     formController = FormController();
-  });
-
-  setUpAll(() {
-    registerFallbackValue(const SearchPokemonParams(name: 'ditto'));
   });
 
   testWidgets('Poke list page getting data correctly', (tester) async {
@@ -92,7 +92,6 @@ void main() {
     );
 
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 500));
 
     //Navegando para página de formulário
     final navigateWidget = find.byIcon(Icons.navigate_next_sharp);
