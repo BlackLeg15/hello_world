@@ -1,15 +1,9 @@
 import 'dart:math';
 
 import 'package:core/core.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:form/src/domain/usecases/login/login_usecase_impl.dart';
-import 'package:form/src/external/datasources/mock/login_datasource_mock_impl.dart';
-import 'package:form/src/infra/repositories/login_repository_impl.dart';
 import 'package:form/src/presenter/form_controller.dart';
-
-import '../domain/repositories/login_repository.dart';
-import '../domain/usecases/login/login_usecase.dart';
-import '../infra/datasources/login_datasource.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -19,24 +13,17 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-  late FormController formController;
-  late LoginUsecase loginUsecase;
-  late LoginRepository loginRepository;
-  late LoginDatasource loginDatasource;
+  late FormController controller;
   var isLoading = false;
-  late AnalyticsService analyticsService;
 
   @override
-  void initState() {
-    super.initState();
-    loginDatasource = LoginDatasourceMockImpl();
-    loginRepository = LoginRepositoryImpl(loginDatasource);
-    loginUsecase = LoginUsecaseImpl(loginRepository);
-    formController = FormController(loginUsecase);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    controller = DependencyInjectionWidget.of(context)!.get();
   }
 
   void showIsLoggedSnackBar() {
-    analyticsService.logEvent(AnalyticsEventType.logged, {});
+    controller.analyticsService.logEvent(AnalyticsEventType.logged, {});
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Logado com sucesso + Clean Dart'),
@@ -46,7 +33,6 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
-    analyticsService = DependencyInjectionWidget.of(context)!.get();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -60,34 +46,30 @@ class _FormPageState extends State<FormPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StatefulBuilder(
-                builder: (context, setState) {
-                  return TextField(
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Ex.: email@provedor.com',
-                      label: const Text('E-mail'),
-                      errorText: formController.emailError,
-                      //suffix: Icon(Icons.hide_source),
-                    ),
-                    onChanged: (value) => setState(() => formController.onChangedEmail(value)),
-                  );
-                },
+              Observer(
+                builder: (context) => TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Ex.: email@provedor.com',
+                    label: const Text('E-mail'),
+                    errorText: controller.formStore.emailError,
+                    //suffix: Icon(Icons.hide_source),
+                  ),
+                  onChanged: (value) => controller.formStore.changeEmail(value),
+                ),
               ),
               const SizedBox(height: 20),
-              StatefulBuilder(
-                builder: (context, setState) {
-                  return TextField(
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Ex.: suasenha123',
-                      label: const Text('Senha'),
-                      errorText: formController.passwordError,
-                      //suffix: Icon(Icons.hide_source),
-                    ),
-                    onChanged: (value) => setState(() => formController.onChangedPassword(value)),
-                  );
-                },
+              Observer(
+                builder: (context) => TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Ex.: suasenha123',
+                    label: const Text('Senha'),
+                    errorText: controller.formStore.passwordError,
+                    //suffix: Icon(Icons.hide_source),
+                  ),
+                  onChanged: (value) => controller.formStore.changePassword(value),
+                ),
               ),
               const SizedBox(height: 20),
               StatefulBuilder(
@@ -101,7 +83,7 @@ class _FormPageState extends State<FormPage> {
                             setState(() {
                               isLoading = true;
                             });
-                            final isLogged = await formController.login();
+                            final isLogged = await controller.login();
                             setState(() {
                               isLoading = false;
                             });

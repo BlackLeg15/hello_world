@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FormPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FormFeature()));
               },
               child: const Text('Go to the form'),
             ),
