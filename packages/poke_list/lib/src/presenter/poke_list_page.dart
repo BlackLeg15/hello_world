@@ -1,3 +1,4 @@
+
 import 'package:core/core.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +16,47 @@ class PokeListPage extends StatefulWidget {
 
 class _PokeListPageState extends State<PokeListPage> {
   late PokeListController controller;
+  ReactionDisposer? disposableReactionAutorun;
+  ReactionDisposer? disposableReactionReaction;
+  ReactionDisposer? disposableReactionWhen;
+
+  void initReactions() {
+    disposableReactionAutorun ??= autorun((_) {
+      debugPrint('Autorun: ${controller.searchPokemonStore.isLoading}');
+    });
+
+    disposableReactionReaction ??= reaction<bool>((_) => controller.searchPokemonStore.isLoading, (isLoading) {
+      debugPrint('Reaction: $isLoading');
+    });
+
+    disposableReactionWhen ??= when((_) => controller.searchPokemonStore.isLoading == true, () {
+      debugPrint('When: isLoading == true');
+    });
+  }
+
+  void waitForCompletion() async {
+    await asyncWhen((_) => controller.searchPokemonStore.isLoading == true);
+  }
 
   @override
   void didChangeDependencies() {
     controller = DependencyInjectionWidget.of(context)!.get();
     controller.screenOpened();
+    initReactions();
     initPage();
     super.didChangeDependencies();
   }
 
   void initPage() {
     controller.initPage();
+  }
+
+  @override
+  void dispose() {
+    disposableReactionAutorun?.call();
+    disposableReactionReaction?.call();
+    disposableReactionWhen?.call();
+    super.dispose();
   }
 
   @override
