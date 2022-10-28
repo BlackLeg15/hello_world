@@ -18,24 +18,24 @@ abstract class FormStoreBase with Store {
 
   @action
   void changeEmail(String value) {
-    if (value.isEmpty) {
-      emailError = 'Digite um e-mail';
-    } else {
-      email = value;
-      emailError = null;
-    }
+    email = value;
+    emailError = value.isEmpty ? 'Digite um e-mail' : null;
   }
 
   @action
   void changePassword(String value) {
-    if (value.isEmpty) {
-      passwordError = 'Digite uma senha';
-    } else {
-      password = value;
-      passwordError = null;
-    }
+    password = value;
+    passwordError = value.isEmpty ? 'Digite uma senha' : null;
   }
 
   @computed
   bool get isValid => emailError == null && passwordError == null && email.isNotEmpty && password.isNotEmpty;
+
+  @observable
+  bool isLoading = false;
+
+  @action
+  void changeLoading(bool value) {
+    isLoading = value;
+  }
 }

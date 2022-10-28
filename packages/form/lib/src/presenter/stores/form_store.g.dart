@@ -79,6 +79,22 @@ mixin _$FormStore on FormStoreBase, Store {
     });
   }
 
+  late final _$isLoadingAtom =
+      Atom(name: 'FormStoreBase.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   late final _$FormStoreBaseActionController =
       ActionController(name: 'FormStoreBase', context: context);
 
@@ -105,12 +121,24 @@ mixin _$FormStore on FormStoreBase, Store {
   }
 
   @override
+  void changeLoading(bool value) {
+    final _$actionInfo = _$FormStoreBaseActionController.startAction(
+        name: 'FormStoreBase.changeLoading');
+    try {
+      return super.changeLoading(value);
+    } finally {
+      _$FormStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 emailError: ${emailError},
 passwordError: ${passwordError},
+isLoading: ${isLoading},
 isValid: ${isValid}
     ''';
   }

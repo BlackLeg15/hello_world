@@ -1,13 +1,13 @@
 import 'package:core/core.dart';
 import 'package:dependencies/dependencies.dart';
 
-class FirebaseAnalyticsService extends AnalyticsService {
-  late final FirebaseAnalytics _firebaseAnalytics;
+class FirebaseAnalyticsService extends Equatable implements AnalyticsService {
+  final FirebaseAnalytics _firebaseAnalytics;
 
-  FirebaseAnalyticsService._();
+  const FirebaseAnalyticsService._(this._firebaseAnalytics);
 
   static FirebaseAnalyticsService _instance(FirebaseApp app) =>
-      FirebaseAnalyticsService._().._firebaseAnalytics = FirebaseAnalytics.instanceFor(app: app);
+      FirebaseAnalyticsService._(FirebaseAnalytics.instanceFor(app: app));
 
   factory FirebaseAnalyticsService({required FirebaseApp firebaseApp}) => _instance(firebaseApp);
 
@@ -31,4 +31,7 @@ class FirebaseAnalyticsService extends AnalyticsService {
   Future<AnalyticsError?> screenOpened(Object parameters) {
     return logEvent(AnalyticsEventType.screenOpened, parameters);
   }
+  
+  @override
+  List<Object?> get props => [_firebaseAnalytics.app.name];
 }

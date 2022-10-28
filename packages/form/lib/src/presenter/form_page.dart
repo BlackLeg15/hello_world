@@ -13,17 +13,17 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-  late FormController controller;
+  FormController? controller;
   var isLoading = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    controller = DependencyInjectionWidget.of(context)!.get();
+    controller ??= DependencyInjectionWidget.of(context)!.get();
   }
 
   void showIsLoggedSnackBar() {
-    controller.analyticsService.logEvent(AnalyticsEventType.logged, {});
+    controller!.analyticsService.logEvent(AnalyticsEventType.logged, {});
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Logado com sucesso + Clean Dart'),
@@ -52,10 +52,10 @@ class _FormPageState extends State<FormPage> {
                     border: const OutlineInputBorder(),
                     hintText: 'Ex.: email@provedor.com',
                     label: const Text('E-mail'),
-                    errorText: controller.formStore.emailError,
+                    errorText: controller!.formStore.emailError,
                     //suffix: Icon(Icons.hide_source),
                   ),
-                  onChanged: (value) => controller.formStore.changeEmail(value),
+                  onChanged: (value) => controller!.formStore.changeEmail(value),
                 ),
               ),
               const SizedBox(height: 20),
@@ -65,32 +65,38 @@ class _FormPageState extends State<FormPage> {
                     border: const OutlineInputBorder(),
                     hintText: 'Ex.: suasenha123',
                     label: const Text('Senha'),
-                    errorText: controller.formStore.passwordError,
+                    errorText: controller!.formStore.passwordError,
                     //suffix: Icon(Icons.hide_source),
                   ),
-                  onChanged: (value) => controller.formStore.changePassword(value),
+                  onChanged: (value) => controller!.formStore.changePassword(value),
                 ),
               ),
               const SizedBox(height: 20),
-              StatefulBuilder(
-                builder: (context, setState) {
+              Observer(
+                builder: (context) {
+                  final isValid = controller!.formStore.isValid;
+                  final isLoading = controller!.formStore.isLoading;
                   return isLoading
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
                           style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(Size(max(size.width * 0.1, 120), max(size.width * 0.01, 60)))),
-                          onPressed: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            final isLogged = await controller.login();
-                            setState(() {
-                              isLoading = false;
-                            });
-                            if (isLogged) {
-                              showIsLoggedSnackBar();
-                            }
-                          },
+                            minimumSize: MaterialStateProperty.all(Size(max(size.width * 0.1, 120), max(size.width * 0.01, 60))),
+                            backgroundColor: MaterialStateProperty.resolveWith((states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.blueGrey;
+                              } else {
+                                return Theme.of(context).primaryColor;
+                              }
+                            }),
+                          ),
+                          onPressed: !isValid
+                              ? null
+                              : () async {
+                                  final isLogged = await controller!.login();
+                                  if (isLogged) {
+                                    showIsLoggedSnackBar();
+                                  }
+                                },
                           child: const Text('Login'),
                         );
                 },

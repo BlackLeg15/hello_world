@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 class SearchPokemonViewModel extends Equatable {
   final String pokemonName;
