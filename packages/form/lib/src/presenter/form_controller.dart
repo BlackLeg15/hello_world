@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:form/src/domain/params/login_params.dart';
 import 'package:form/src/domain/usecases/login/login_usecase.dart';
+import 'package:form/src/presenter/stores/change_notifier/form_store_change_notifier.dart';
 
-import 'stores/form_store.dart';
 
 class FormController {
   final LoginUsecase loginUsecase;
-  final FormStore formStore;
+  //final FormStore formStore;
   final AnalyticsService analyticsService;
+  final FormStoreChangeNotifier formStore;
 
   FormController(this.loginUsecase, this.analyticsService, this.formStore);
 

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:core/core.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:form/src/presenter/form_controller.dart';
 
@@ -16,10 +15,35 @@ class _FormPageState extends State<FormPage> {
   FormController? controller;
   var isLoading = false;
 
+  var formStoreLoading = false;
+
+  var listenersHaveBeenAdded = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     controller ??= DependencyInjectionWidget.of(context)!.get();
+    if (!listenersHaveBeenAdded) {
+      addListeners();
+    }
+  }
+
+  void addListeners() {
+    final store = controller!.formStore;
+    store.addListener(whenIsLoading);
+    listenersHaveBeenAdded = true;
+  }
+
+  void removeListeners() {
+    final store = controller!.formStore;
+    store.removeListener(whenIsLoading);
+  }
+
+  void whenIsLoading() {
+    if (controller!.formStore.isLoading && controller!.formStore.isLoading != formStoreLoading) {
+      formStoreLoading = controller!.formStore.isLoading;
+      debugPrint(controller!.formStore.isLoading.toString());
+    }
   }
 
   void showIsLoggedSnackBar() {
@@ -29,6 +53,15 @@ class _FormPageState extends State<FormPage> {
         content: Text('Logado com sucesso + Clean Dart'),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if (listenersHaveBeenAdded) {
+      removeListeners();
+    }
+    controller!.formStore.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,8 +79,9 @@ class _FormPageState extends State<FormPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Observer(
-                builder: (context) => TextField(
+              AnimatedBuilder(
+                animation: controller!.formStore,
+                builder: (context, child) => TextField(
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Ex.: email@provedor.com',
@@ -59,8 +93,9 @@ class _FormPageState extends State<FormPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              Observer(
-                builder: (context) => TextField(
+              AnimatedBuilder(
+                animation: controller!.formStore,
+                builder: (context, child) => TextField(
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Ex.: suasenha123',
@@ -72,8 +107,9 @@ class _FormPageState extends State<FormPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              Observer(
-                builder: (context) {
+              AnimatedBuilder(
+                animation: controller!.formStore,
+                builder: (context, child) {
                   final isValid = controller!.formStore.isValid;
                   final isLoading = controller!.formStore.isLoading;
                   return isLoading
