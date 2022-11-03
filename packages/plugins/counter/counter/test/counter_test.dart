@@ -1,13 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:counter/counter.dart';
-import 'package:counter/counter_platform_interface.dart';
-import 'package:counter/counter_method_channel.dart';
+import 'package:counter_platform_interface/counter_platform_interface.dart';
+import 'package:counter_platform_interface/counter_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockCounterPlatform
-    with MockPlatformInterfaceMixin
-    implements CounterPlatform {
-
+class MockCounterPlatform with MockPlatformInterfaceMixin implements CounterPlatform {
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 }

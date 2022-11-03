@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:counter/counter_method_channel.dart';
+import 'package:counter_platform_interface/counter_method_channel.dart';
 
 void main() {
   MethodChannelCounter platform = MethodChannelCounter();

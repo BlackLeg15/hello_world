@@ -43,6 +43,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  counter_platform_interface:
+    dependency: transitive
+    description:
+      path: "../../counter_platform_interface"
+      relative: true
+    source: path
+    version: "0.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:

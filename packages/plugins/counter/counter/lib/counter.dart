@@ -5,7 +5,7 @@
 // platforms in the `pubspec.yaml` at
 // https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
-import 'counter_platform_interface.dart';
+import 'package:counter_platform_interface/counter_platform_interface.dart';
 
 class Counter {
   Future<String?> getPlatformVersion() {
