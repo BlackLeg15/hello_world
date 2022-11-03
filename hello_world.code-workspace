@@ -21,6 +21,9 @@
 		{
 			"path": "packages/firebase_analytics_service",
 		},
+		{
+			"path": "packages/plugins/counter"
+		}
 	],
 	"settings": {}
 }
