@@ -47,8 +47,8 @@ void main() {
     ).thenAnswer((invocation) async => null);
 
     final dependencies = <Type, Object>{
-      PokeListController: controller,
-      FormController: formController,
+      //PokeListController: controller,
+      //FormController: formController,
     };
     await tester.pumpWidget(
       DependencyInjectionWidget(
