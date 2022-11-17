@@ -39,7 +39,7 @@ jobs:
           min_coverage: 0
           path: './packages/poke_list/coverage/lcov.info'
       - run: flutter build apk --release
-        with:
-         artifacts: "build/app/outputs/flutter-apk/*.apk"
       - name: Create Release
         uses: ncipollo/release-action@v1.11.2
+        with:
+         artifacts: "build/app/outputs/flutter-apk/*.apk"
