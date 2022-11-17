@@ -15,12 +15,16 @@ class AnalyticsServiceMock extends Mock implements AnalyticsService {}
 
 class SearchPokemonUsecaseMock extends Mock implements SearchPokemonUsecase {}
 
+class TranslationsMock extends Mock implements Translations {}
+
 void main() {
   late AnalyticsService analyticsService;
   late SearchPokemonUsecase usecase;
   late PokeListController controller;
   late SearchPokemonStore store;
   late FormController formController;
+  late Translations translations;
+  late Map<Type, Object> dependencies;
 
   setUpAll(() {
     registerFallbackValue(const SearchPokemonParams(name: 'ditto'));
@@ -32,9 +36,8 @@ void main() {
     store = SearchPokemonStore(usecase);
     controller = PokeListController(store, analyticsService);
     formController = FormController();
-  });
+    translations = TranslationsMock();
 
-  testWidgets('Poke list page getting data correctly', (tester) async {
     when(
       () => usecase(any()),
     ).thenAnswer(
@@ -42,14 +45,21 @@ void main() {
         SearchPokemonEntity(abilities: [], id: '0', name: 'ditto'),
       ),
     );
+    
     when(
       () => analyticsService.screenOpened(any()),
     ).thenAnswer((invocation) async => null);
 
-    final dependencies = <Type, Object>{
+    when(() => translations.helloWorld).thenAnswer((invocation) => 'Hello World');
+
+    dependencies = <Type, Object>{
       PokeListController: controller,
       FormController: formController,
+      Translations: translations,
     };
+  });
+
+  testWidgets('Poke list page getting data correctly', (tester) async {
     await tester.pumpWidget(
       DependencyInjectionWidget(
         dependencies: dependencies,
@@ -67,21 +77,6 @@ void main() {
   });
 
   testWidgets('Go to the form page and back', (tester) async {
-    when(
-      () => usecase(any()),
-    ).thenAnswer(
-      (invocation) async => const Right(
-        SearchPokemonEntity(abilities: [], id: '0', name: 'ditto'),
-      ),
-    );
-    when(
-      () => analyticsService.screenOpened(any()),
-    ).thenAnswer((invocation) async => null);
-
-    final dependencies = <Type, Object>{
-      PokeListController: controller,
-      FormController: formController,
-    };
     await tester.pumpWidget(
       DependencyInjectionWidget(
         dependencies: dependencies,
