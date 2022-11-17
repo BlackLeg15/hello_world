@@ -1,4 +1,3 @@
-
 import 'package:core/core.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +60,7 @@ class _PokeListPageState extends State<PokeListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = DependencyInjectionWidget.of(context)!.get<Translations>();
     final store = controller.searchPokemonStore;
     return Scaffold(
       appBar: AppBar(),
@@ -89,7 +89,7 @@ class _PokeListPageState extends State<PokeListPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('List of abilities'),
+                Text('List of abilities and ${translations.helloWorld}'),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,

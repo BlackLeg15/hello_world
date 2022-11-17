@@ -9,3 +9,5 @@ export 'firebase/firebase_options.dart';
 export 'package:mobx/mobx.dart' hide version;
 export 'package:flutter_mobx/flutter_mobx.dart';
 export 'package:equatable/equatable.dart';
+export 'package:flutter_localizations/flutter_localizations.dart';
+export 'package:localization/localization.dart';

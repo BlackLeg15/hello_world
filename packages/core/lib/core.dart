@@ -7,3 +7,4 @@ export 'src/dependency_injection/feature.dart';
 export 'src/analytics/analytics_event_type.dart';
 export 'src/analytics/analytics_service.dart';
 export 'src/analytics/analytics_error.dart';
+export 'src/i18n/translations.dart';

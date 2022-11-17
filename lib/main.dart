@@ -3,6 +3,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:firebase_analytics_service/firebase_analytics_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_world/core/i18n/translations_impl.dart';
 
 import 'app/app_widget.dart';
 
@@ -25,10 +26,12 @@ void main() async {
 
   final firebaseApp = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final analytics = FirebaseAnalyticsService(firebaseApp: firebaseApp);
+  final translations = TranslationsImpl();
 
   runApp(AppFeature(
     baseDependencies: {
       AnalyticsService: analytics,
+      Translations: translations,
     },
   ));
 }
