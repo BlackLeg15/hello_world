@@ -51,7 +51,14 @@ class _HomePageState extends State<HomePage> {
               'You have pushed the button this many times:',
               style: Theme.of(context).textTheme.headline6,
             ),
-            CustomInherited(child: const CustomCounter(), counterValue: _counter),
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
+            ExcludeSemantics(child: CustomInherited(child: const CustomCounter(), counterValue: _counter)),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SecondPage()));
@@ -73,10 +80,21 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: changeOrder,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: changeOrder,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Incrementar',
+        child: ExcludeSemantics(
+          child: FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+        ),
       ),
     );
   }
